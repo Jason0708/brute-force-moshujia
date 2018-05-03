@@ -14,7 +14,11 @@ c = 0
 fd = open("passwd.txt", 'w')
 zifujz = [0,0,0,0,0,0]
 while zifujz[0] < len(zifu):
+	c = 0
 	while zifujz[len(zifujz)-1] < len(zifu):
+		if(len(zifujz) !=  len(set(zifujz))):
+			zifujz[len(zifujz)-1] += 1
+			continue
 		while c < len(zifujz):
 			pwdstr += zifu[zifujz[c]]
 			c += 1
