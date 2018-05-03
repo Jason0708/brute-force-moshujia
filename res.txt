@@ -1,0 +1,287 @@
+HTTP/1.0 200 OK
+Date: Wed May  2 22:46:05 2018
+Server: H3C-Miniware-Webs
+Pragma: no-cache
+Cache-Control: no-store,no-cache
+Content-type: text/html;charset=GB2312
+
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<HTML><HEAD>
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META HTTP-EQUIV=Pragma CONTENT=no-cache>
+<meta name="viewport" content="user-scalable=0" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<title>H3C&nbsp;Magic B1&nbsp路由器登录</TITLE>
+<LINK Rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon">
+<LINK href=er_globe.css type=text/css rel=stylesheet>
+<SCRIPT src=icg_helpScript.js></SCRIPT>
+<SCRIPT language=JavaScript src=icg_utils.js></SCRIPT>
+<SCRIPT src=utils.js></SCRIPT>
+<script src=globalFunctions.js type=text/javascript></script>
+<script src=main.js type=text/javascript></script>
+<SCRIPT src=Scg_cookie.js></SCRIPT>
+
+<SCRIPT language=JavaScript>
+
+
+var sys_version = "B1V100R007";
+var mac_addr = "50:DA:00:2F:B8:42";
+var lan_local_info='192.168.124.1;255.255.255.0;0;00:00:00:00:00:00';
+
+var PRODUCT_FORUM_URL = "http://forum.h3c.com/forum-676-1.html";
+var PRODUCT_APPLICATION_URL = "";
+var bPwdIsSyncByAc = 0;
+
+var tt = lan_local_info.split(";");
+var ip_addr = tt[0];
+var telnumber = "400 600 9999";
+var user_level = 1;
+
+/*获取系统类型(PC or Mobile)*/
+var isMobileSyetem = checkMobile();
+var isAppleSystem = checkAndroidOrApp();
+
+function wifi_init()
+{
+    /*Begin: Added by y09312 of 2015-03-03*/
+    /*如果路由器登录页面只是一个子页面，则将其主页面切换为当前登录页面。*/
+    var parentPage = top.window.location.toString().replace(/.*\//,'');
+    parentPage=parentPage.replace(/\?.*/,'');
+
+    if(parentPage != cPage)
+    {
+        top.window.location = cPage;
+    }
+    /*End: Added by y09312 of 2015-03-03*/
+    
+    document.getElementById("psd").value = "";
+    document.router_password_set.psd.focus();
+}
+function onBodyLoad()
+{
+    /*刷新登录页面或者提交失败时，清除cookie。*/
+    deleteCookie("USERLOGINIDFLAG");
+    deleteCookie("MAIN_FLAG");
+    deleteCookie("MOBILE_FLAG");
+    
+    wifi_init();
+    
+    var flag = getCookie("PSWMOBILEFLAG");
+    if("true" == flag)
+    {
+        var resultInfo="false;0";
+        var resultArray = resultInfo.split(";");
+        var checkPsdFlag = resultArray[0];
+        var sessionid = resultArray[1];
+        
+        if ("true" == checkPsdFlag)
+	    {
+            /*只有密码验证成功之后，才更新cookie。*/
+            addCookie("USERLOGINIDFLAG", sessionid);
+		    GURL("mobile.asp");
+            return;
+	    }
+	    else if("false" == checkPsdFlag)
+	    {
+            mobile_display_message("warningmsg", "密码错误，请重试。");
+            document.getElementById("psd").select();
+	    }
+    }
+
+    /*根据屏幕分辨率，动态调整页面宽度和高度。*/
+    var screen_width = screen.availWidth;
+    var screen_height = screen.availHeight;
+
+    document.getElementById("formbackground").style.width = screen_width;
+    document.getElementById("formbackground").style.height = screen_height;
+    
+    deleteCookie("PSWMOBILEFLAG");
+    deleteCookie("LOGIN_PSD_REM_FLAG");
+    return;
+}
+
+function mySubmit()
+{
+	var sUserPass = document.getElementById("psd").value;
+
+    document.getElementById("warningmsg").innerHTML="";
+	document.getElementById("warningmsg").height = 1;
+    
+	if (0 == sUserPass.length)
+	{
+        mobile_display_message("warningmsg", "请输入密码。");
+	    document.getElementById("psd").focus();
+	    return false;
+	}
+
+    if(document.getElementById("psd_en").checked == true)
+    {
+        addCookie("LOGIN_PSD_REM_FLAG", 1);
+    }
+    else
+    {
+        addCookie("LOGIN_PSD_REM_FLAG", 0);
+    }
+    
+    addCookie("PSWMOBILEFLAG", "true");
+    
+    document.router_password_set.submit();
+	return true;
+}
+
+function GURL(page)
+{
+	window.location = page;
+}
+
+function link(item)
+{
+    if(item == 'apple')
+    {
+        document.getElementById(item).href = "http://store.apple.com/cn/"; 
+        document.getElementById(item).target = "_blank";
+    }
+    else
+    {
+        document.getElementById(item).href = "http://market.android.com/"; 
+        document.getElementById(item).target = "_blank";
+    }
+}
+
+function mouseOn(item)
+{
+	document.getElementById(item).style.textDecoration= 'underline';
+}
+
+function mouseOut(item)
+{
+    document.getElementById(item).style.textDecoration= 'none';
+}
+
+</SCRIPT>
+</HEAD>
+<body bgcolor=#ffffff leftMargin=0 topMargin=0 MARGINWIDTH=0 MARGINHEIGHT=0 BORDER=0 onload=onBodyLoad()>
+
+<div id="formbackground" name="formbackground" style="position:absolute; z-index:-1;">
+  <SCRIPT language=JavaScript>
+      if(true == isMobileSyetem)
+      {
+          document.write('<img id="bodyimg" name="bodyimg" src="bg_mobile2.png" height="100%" width="100%">');
+      }
+      else
+      {
+          document.write('<img id="bodyimg" name="bodyimg" src="bg_pc2.jpg" height="100%" width="100%">');
+      }
+  </SCRIPT>
+</div>
+
+<table id="firstTable" border=0 width="100%" height=60 style="background-color:#4670a9;">
+<TR> 
+    <TD width=5%></TD>
+    <TD width=25%>
+        <div align=left><IMG id="go" name="go" src="home.png" class=mobileH3cImg onclick="goto_H3C()"></div></TD>
+    <TD width=40%>
+        <div align=center><img src="title.png" class=mobileMagicImg onclick="goto_forum()"></div></TD>
+    <TD width=25%></TD>
+    <TD width=5%></TD>
+</TR>
+</table>
+
+<FORM action="" method="POST" name=router_password_set>
+<TABLE cellSpacing=0 cellPadding=3 border=0 width=100%>
+  <TBODY>
+    <TR>
+      <TD align=center height=20 colspan=3></TD>
+    </TR>
+    
+    <TR>
+      <TD width=10%></TD>
+      <TD width=80% align=left height=40><span style="width:100%; height:30; text-align:left; color:#1e5094; font-family:Microsoft YaHei; font-size:16px;">管理密码</span></TD>
+      <TD width=10%></TD>
+    </TR>
+
+    <TR>
+      <TD align=center height=40 colspan=3>
+        <INPUT type=password id="psd" name="psd" style="width:80%;" class=mobileText onkeypress="onEnterSub_Firefox(event,mySubmit,user_level)" onpaste="return false;">
+        <input type=text style="display:none;">
+      </TD>
+    </TR>
+
+    <TR>
+      <TD WIDTH=10%></TD>
+      <TD WIDTH=80% align=left>
+        <INPUT id="psd_en" name="psd_en" type=checkbox>
+        <span style="height:30; text-align:left; color:#1e5094; font-family:Microsoft YaHei; font-size:13px;">记住密码</span>
+      </TD>
+      <TD WIDTH=10%></TD>
+    </TR>
+    <SCRIPT language=JavaScript>
+      if(1 == bPwdIsSyncByAc)
+      {
+          document.write('<TR class=textCell>');
+          document.write('<TD colspan=1 width="10%" align=left></TD>');
+          document.write('<TD colspan=1 width="80%" id="pass_message" name="pass_message" class=mobileNoticeTxt>')
+          mobile_display_message_shuoming("pass_message", "管理密码与自动连接的H3C Magic B1密码一致。");
+          document.write('</TD>');
+          document.write('<TD WIDTH=10%></TD>');
+          document.write('</TR>');
+      }
+    </SCRIPT>    
+    <TR>
+      <TD WIDTH=10%></TD>
+      <TD WIDTH=80% align=left class=mobileWarnningTxt id="warningmsg" name="warningmsg"></TD>
+      <TD WIDTH=10%></TD>
+    </TR>
+        
+    <TR><TD align=center height=10 colspan=3></TD></TR>
+    <TR><TD align=center height=40 colspan=3>
+        <input name="login" id="login" type=button style="WIDTH:80%; HEIGHT:45px;" class=mobileButton value="登录" onclick="mySubmit();">
+    </TD></TR>
+
+    <TR><TD align=center colspan=3>
+      <SCRIPT language=JavaScript>
+      if(true == isMobileSyetem)
+      {
+        if("" != PRODUCT_APPLICATION_URL)
+        {
+          //如果是移动终端，则推送app store或者android电子市场链接。
+          if(true == isAppleSystem)
+          {
+              document.write('<TR><TD height=100 align=center colspan=3 style="FONT-SIZE:14px; FONT-WEIGHT:bold; color:#1c4e92; FONT-FAMILY: "Microsoft YaHei" ! important;">');
+              document.write('<a style="FONT-SIZE:14px; FONT-WEIGHT:bold; color:#1c4e92; FONT-FAMILY: "Microsoft YaHei" ! important;">APP下载链接:</a>');
+              document.write('<a id="apple" name="apple" style="text-decoration:underline;cursor:pointer; FONT-SIZE:14px; FONT-WEIGHT:bold; color:#1c4e92; FONT-FAMILY: "Microsoft YaHei" ! important;" onclick="link(\'apple\');">App Store</a>');
+              document.write('</TD></TR>');
+          }
+          else
+          {
+              document.write('<TR><TD height=100 align=center colspan=3 style="FONT-SIZE:14px; FONT-WEIGHT:bold; color:#1c4e92; FONT-FAMILY: "Microsoft YaHei" ! important;">');
+              document.write('<a style="FONT-SIZE:14px; FONT-WEIGHT:bold; color:#1c4e92; FONT-FAMILY: "Microsoft YaHei" ! important;">APP下载链接:</a>');
+              document.write('<a id="Android" name="Android" style="text-decoration:underline;cursor:pointer; FONT-SIZE:14px; FONT-WEIGHT:bold; color:#1c4e92; FONT-FAMILY: "Microsoft YaHei" ! important;" onclick="link(\'Android\');">Android电子市场</a>');
+              document.write('</TD></TR>');
+          }
+        }
+      }
+      else
+      {
+          /* Begin modify by w12167,2-15-12-10.IDMS:201511250468 */
+          /* Begin modify by jiangjiguang 11967, 2015-8-19, IDMS 201508190089 */
+          //如果是PC，则推送二维码。
+          document.write('<TR><TD colspan=3>&nbsp;</TD></TR>');
+          document.write('<TR><TD align=center colspan=3>');
+          document.write('<a><img src="magic_app.png" border="0" style="height:236px; width:200px;"></a>');
+		  document.write('<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>');
+          document.write('<a><img src="weixin.jpg" border="0" style="height:236px; width:200px;"></a>');
+          document.write('</TD></TR>');
+		  /* End modify by jiangjiguang 11967, 2015-8-19, IDMS 201508190089 */
+          /* End modify by w12167,2-15-12-10.IDMS:201511250468 */
+      }
+      </SCRIPT>
+    </TD></TR>
+  </TBODY>
+</TABLE>
+</FORM>
+</BODY>
+</HTML>
+
+
